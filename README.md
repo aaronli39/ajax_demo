@@ -1,1 +1,1 @@
-# ajax_demo
+# Flask app with AJAX demo
