@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<style>
+			body {
+				padding-top: 65px;
+			}
+		</style>
+		<title>Ajax Test</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1 class="display-3">Ajax Demo</h1>
+					<hr>
+
+					<!-- demo code below -->
+					<h1 id="target">Hello, world!</h1>
+					<label for="inp">Enter text below to change heading above</label>
+					<input id="inp" class="form-control" name="inp" type="email">
+					<button class="btn btn-primary mt-3" onclick="loadDoc()">Submit</button>
+					<!-- demo code -->
+
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function loadDoc() {
+				// create a XMLHttpRequest object called req
+				var req = new XMLHttpRequest();
+
+				// this is the callback function:
+				// upon receiving a response from the server, execute this
+				req.onreadystatechange = function () {
+					if (req.readyState == 4) { // if response received
+						if (req.status != 200) { // if error(status code not 200)
+							console.log(req.statusText); // outputs error msg
+						} else { // if status code is 200
+							console.log("success... executing success code");
+							// JSON.parse parses JSON response into readable format
+							var response = JSON.parse(req.responseText);
+							console.log(response);
+							// change the element
+							document.getElementById("target").innerHTML = response.output;
+						}
+					}
+				}
+				// begin steps to send ajax request
+
+				// get the element value
+				var un = document.getElementById("inp").value;
+				// this is the query string, they start with a "?[insert key value]=[insert value]"
+				var postVars = "?input=" + un;
+				// console.log("sending this: " + un);
+
+				// use setRequestHeader if POST method, and req.send(postVars)
+				// req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+				// if GET, add the postVars to the query string
+				req.open("GET", "/ajax" + postVars, true);
+				req.send();
+				console.log("finished sending ajax request");
+			}
+		</script>
+	</body>
+
+</html>
